@@ -2,8 +2,8 @@ import { StatusBar } from 'expo-status-bar';
 import { Alert, StyleSheet, Text, View } from 'react-native';
 import { useState } from 'react';
 
-import Button from '@/components/Button/Index';
-import Input from '@/components/input/Index';
+import Button from '@/components/Button/index';
+import Input from '@/components/input/index';
 
 export default function Home() {
   const [timeA, setTimeA] = useState(0)
