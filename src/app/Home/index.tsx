@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import { Alert, StyleSheet, Text, View } from 'react-native';
 import { useState } from 'react';
 
@@ -12,75 +11,69 @@ export default function Home() {
   const [vitoriasA, setVitoriasA] = useState(0)
   const [vitoriasB, setVitoriasB] = useState(0)
 
-  const [jogoEncerrado, setJogoEncerrado] = useState(false)
-
   const MAX = 12
 
+  const [jogoEncerrado, setJogoEncerrado] = useState(false)
+
   function atualizarPlacar(time: string, valor: number) {
-    if (jogoEncerrado) return;
+    if (jogoEncerrado) return
 
-    if (time.toLowerCase() === 'a') {
-      let novo = timeA + valor
+    const placarAtual = time === 'A' ? timeA : timeB
 
-      if (novo < 0) novo = 0
-      if (novo > 12) novo = 12
+    let placar = placarAtual + valor
 
-      setTimeA(novo)
+      if (placar < 0) placar = 0
+      if (placar > MAX) placar = MAX
 
-      if (novo === MAX) {
-        setJogoEncerrado(true)
-        setVitoriasA((v) => v + 1)
-        Alert.alert('Fim de jogo', 'O time A venceu!')
+      if (time === 'A') {
+        setTimeA(placar)
+      } else {
+      setTimeB(placar)
       }
 
-    } else {
-      let novo = timeB + valor
-
-      if (novo < 0) novo = 0
-      if (novo > 12) novo = MAX
-
-      setTimeB(novo)
-
-      if (novo === MAX) {
+      if (placar === MAX) {
         setJogoEncerrado(true)
-        setVitoriasB((v) => v + 1)
-        Alert.alert('Fim de jogo', 'O time B venceu!')
+        if (time === 'A') {
+          setVitoriasA(vitoriasA + 1)
+        } else {
+          setVitoriasB(vitoriasB + 1)
+        }
+        Alert.alert('Fim de jogo', `O time ${time} venceu!`)
+        setTimeA(0);
+        setTimeB(0);
+        setJogoEncerrado(false);
       }
-    }
   }
-
-  function resetarJogo() {
-    setTimeA(0);
-    setTimeB(0);
-    setJogoEncerrado(false)
-  }
-
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Time A x Time B</Text>
+      <Text style={styles.text}>Time A {vitoriasA} x Time B {vitoriasB}</Text>
       <View style={styles.row} >
         <Input value={timeA.toString()} readOnly />
         <Input value={timeB.toString()} readOnly />
       </View>
+
       <View style={styles.row} >
         <Button titulo="+3"
-          onPress={() => atualizarPlacar('a', 3)} />
+          onPress={() => atualizarPlacar('A', 3)} />
         <Button titulo="+3"
-          onPress={() => atualizarPlacar('b', 3)} />
+          onPress={() => atualizarPlacar('B', 3)} />
       </View>
+
       <View style={styles.row} >
         <Button titulo="+1"
-          onPress={() => atualizarPlacar('a', 1)} />
+          onPress={() => atualizarPlacar('A', +1)} />
         <Button titulo="+1"
-          onPress={() => atualizarPlacar('b', 1)} />
+          onPress={() => atualizarPlacar('B', +1)} />
       </View>
+
       <View style={styles.row} >
         <Button titulo="-1"
-          onPress={() => atualizarPlacar('a', -1)} />
+          onPress={() => atualizarPlacar('A', -1)} />
         <Button titulo="-1"
-          onPress={() => atualizarPlacar('b', -1)} />
+          onPress={() => atualizarPlacar('B', -1)} />
       </View>
+
       <View style={[styles.row, { paddingTop: 32 }]}>
         <Button titulo="Zerar"
           onPress={() => {
@@ -88,8 +81,8 @@ export default function Home() {
             setTimeB(0);
             setJogoEncerrado(false);
           }} />
-
       </View>
+
     </View>
   );
 }
@@ -101,8 +94,8 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 24,
     justifyContent: 'center',
+    textAlign: 'center',
     marginTop: 16
-
   },
   container: {
     flex: 1,

@@ -1,5 +1,4 @@
 import { StyleSheet } from "react-native";
-import button from "./index";
 
 //folha de estilo para usar em components 
 export const styles = StyleSheet.create({
@@ -9,12 +8,14 @@ export const styles = StyleSheet.create({
         padding: 16,
         paddingHorizontal: 32,
         borderRadius: 10,
+        width: '100%',
+        alignItems: 'center'
     },
     text: {
-            fontSize: 24,
-            fontWeight: 600,
-            color: '#f2f2f2', 
-            justifyContent: 'center',
-            alignItems: 'center',    
+        fontSize: 24,
+        fontWeight: 600,
+        color: '#f2f2f2', 
+        justifyContent: 'center',
+        alignItems: 'center',    
     }
 })
